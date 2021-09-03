@@ -70,11 +70,11 @@ export default function SingUp(props) {
               label="Nombre"
               name="name"
               autoComplete="name"
-              {...register("name", { required: true })}
+              {...register("name", { required: "El nombre es requerida" })}
               autoFocus
             />
-            {errors.email && (
-              <Alert severity="error">El nombre es requerido</Alert>
+            {errors.name && (
+              <Alert severity="error">{errors.name.message}</Alert>
             )}
             {auth?.errors?.Name !== undefined &&
               auth.status === HTTP_STATUS.REJECTED && (
@@ -90,10 +90,13 @@ export default function SingUp(props) {
               label="Correo Electronico"
               name="email"
               autoComplete="email"
-              {...register("email", { required: true })}
+              {...register("email", { required: "El correo es requerido", pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "El correo no es correcto"
+              } })}
             />
             {errors.email && (
-              <Alert severity="error">El correo es requerido</Alert>
+              <Alert severity="error">{errors.email.message}</Alert>
             )}
             {auth?.errors?.Email !== undefined &&
               auth.status === HTTP_STATUS.REJECTED && (
@@ -108,11 +111,14 @@ export default function SingUp(props) {
               label="Contraseña"
               type="password"
               id="password"
-              {...register("password", { required: true })}
+              {...register("password", { required: "La Contraseña requerida",  minLength: {
+                value: 5,
+                message: "La Contraseña debe tener al menos 5 caracteres"
+              } })}
               autoComplete="current-password"
             />
             {errors.password && (
-              <Alert severity="error">La Contraseña es requerido</Alert>
+              <Alert severity="error">{errors.password.message}</Alert>
             )}
 
             {auth.errors &&

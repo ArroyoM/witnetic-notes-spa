@@ -73,11 +73,14 @@ export default function SingIn(props) {
               label="Correo Electronico"
               name="email"
               autoComplete="email"
-              {...register("email", { required: true })}
+              {...register("email", { required: "El correo es requerido", pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "El correo no es correcto"
+              } })}
               autoFocus
             />
             {errors.email && (
-              <Alert severity="error">El correo es requerido</Alert>
+              <Alert severity="error">{errors.email.message}</Alert>
             )}
             {auth?.errors?.Email !== undefined &&
               auth.status === HTTP_STATUS.REJECTED && (
@@ -92,11 +95,14 @@ export default function SingIn(props) {
               label="Contraseña"
               type="password"
               id="password"
-              {...register("password", { required: true })}
+              {...register("password", { required: "La Contraseña requerida", minLength: {
+                value: 5,
+                message: "La Contraseña debe tener al menos 5 caracteres"
+              } })}
               autoComplete="current-password"
             />
             {errors.password && (
-              <Alert severity="error">La Contraseña es requerido</Alert>
+              <Alert severity="error">{errors.password.message}</Alert>
             )}
 
             {auth?.errors?.Password !== undefined &&
